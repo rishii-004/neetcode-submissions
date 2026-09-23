@@ -1,38 +1,24 @@
 class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
-        HashMap<String, List<String>> map = new HashMap<>();
+        Map<String, List<String>> map = new HashMap<>();
 
-        for (int i = 0; i < strs.length; i++) {
-            String sorted = helper(strs[i]);
+        for(int i = 0; i < strs.length; i++){
+            int[] arr = new int[26];
 
-            if(map.containsKey(sorted)){
-                // update the list
-                map.get(sorted).add(strs[i]);
-            }else{
-                // add new list 
-                map.put(sorted, new ArrayList<>());
-                map.get(sorted).add(strs[i]);
+            for(int j = 0; j < strs[i].length(); j++){
+                arr[strs[i].charAt(j) - 'a']++;
             }
+
+            // convert the array to a string key 
+            String key = Arrays.toString(arr);
+
+            if(map.containsKey(key) == false){
+                map.put(key, new ArrayList<>());
+            }
+            map.get(key).add(strs[i]);
         }
 
         return new ArrayList<>(map.values());
-    }
 
-    public String helper(String s) {
-        char[] arr = s.toCharArray();
-        Arrays.sort(arr);
-        return new String(arr);
     }
 }
-
-/*
-    create a hashmap<string, list<string>>
-    for every string, first sort and check in the map 
-    if yes, then modify the list 
-    if not present then add a new entry into the map 
-
-        String s = "dcba";
-        char[] chars = s.toCharArray();
-        Arrays.sort(chars);
-        String sorted = new String(chars);
-*/
